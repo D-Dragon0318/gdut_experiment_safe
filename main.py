@@ -21,13 +21,14 @@ if __name__ == "__main__":
     with open("./answer.json", "r", encoding="utf8") as f:
         database = json.load(f)
     student_no = input('请输入你的学号：')
-    student_password = input('请输入你的密码 默认为123456：')
+    student_password = "123456"
+    # student_password = input('请输入你的密码 默认为123456：')
 
     # init
     common.http_get(url_home, {})
     login_data = {'xuehao': student_no, 'password': student_password, 'postflag': '1',
                   'cmd': 'login', 'role': '0', '%CC%E1%BD%BB': '%B5%C7%C2%BC'}
-    common.http_post(url_login, login_data, {'Referer': url_home, 'Origin': 'http://222.200.98.165:8090'})
+    common.http_post(url_login, login_data, {'Referer': url_home, 'Origin': common.url_base})
     common.http_get(url_home, {'Referer': url_login})
     common.http_get(url_entering, {'Referer': url_home})
 
@@ -36,7 +37,7 @@ if __name__ == "__main__":
         found = 0
         question_sheet = common.http_get(url_exam, {'Referer': url_entering})
         extra_headers = {
-            'Origin': 'http://222.200.98.165:8090',
+            'Origin': common.url_base,
             'Referer': url_answer
         }
         for page_id in range(10):
